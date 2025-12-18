@@ -86,28 +86,35 @@ const InvoiceForm = () => {
 
   /* ===================== PRODUCT SELECT ===================== */
   const onProductSelect = (product) => {
-    console.log('product============>', product);
-    
-    if (!product) return;
+    if (!product) {
+      setForm({
+        product_id: '',
+        product_name: '',
+        rate: 0,
+        unit: '',
+        qty: 1,
+        discount: 0,
+        netAmount: 0,
+        totalAmount: 0
+      });
+      return;
+    }
 
-    const rate = Number(product.rate || 0);
-    const discount = Number(form.discount || 0);
-    const qty = Number(form.qty || 1);
-
-    const net = calculateNetAmount(rate, discount);
-    const total = calculateTotalAmount(net, qty);
+    const rate = Number(product.rate);
+    const net = calculateNetAmount(rate, 0);
+    const total = calculateTotalAmount(net, 1);
 
     setForm({
-        product_id: product.product_id,
-        product_name: product.product_name,
-        rate,
-        unit: product.unit || '',
-        qty,
-        discount,
-        netAmount: net,
-        totalAmount: total
+      product_id: product.product_id,
+      product_name: product.product_name,
+      rate,
+      unit: product.unit,
+      qty: 1,
+      discount: 0,
+      netAmount: net,
+      totalAmount: total
     });
-    };
+  };
 
   /* ===================== QTY / DISC ===================== */
   const onQtyDiscChange = (key, value) => {
